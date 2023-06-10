@@ -1,6 +1,6 @@
 import { MantineProvider } from '@mantine/core'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { createBrowserRouter, createRoutesFromElements, Outlet, Route, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, createRoutesFromElements, Navigate, Outlet, Route, RouterProvider } from 'react-router-dom'
 import { RecoilRoot } from 'recoil'
 import Users from './pages/Users'
 import Profile from './pages/Profile'
@@ -18,6 +18,7 @@ const AuthProviderOutlet = () => (
 )
 
 const privateRoutes = [
+    { path: '/', element: <Navigate to='/dashboard' /> },
     { path: '/dashboard', element: <Dashboard /> },
     { path: '/dashboard/:id', element: <Tickets /> },
     { path: '/users', element: <Users /> },
