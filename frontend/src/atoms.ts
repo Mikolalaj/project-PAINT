@@ -28,7 +28,7 @@ async function getUser() {
         email: 'user@pw.edu.pl',
         firstName: 'Mariusz',
         lastName: 'Olszewski',
-        isAdmin: false,
+        isAdmin: true,
     }
 }
 
