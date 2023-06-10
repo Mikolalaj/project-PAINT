@@ -1,12 +1,10 @@
 import { Anchor, Center, Container, Paper, Text, Title } from '@mantine/core'
-import { useEffect } from 'react'
-import { Navigate, useSearchParams } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { atom, useRecoilState, useRecoilValue } from 'recoil'
 import { loginPageResponse, userState } from '../atoms'
 import LogInForm from '../components/login/LogInForm'
 import ResultAlert from '../components/login/ResultAlert'
 import SignUpForm from '../components/login/SignUpForm'
-import { useAccount } from '../hooks/useAccount'
 
 export const LoginForm = atom({
     key: 'LoginForm',
@@ -17,20 +15,6 @@ export default function LoginPage() {
     const user = useRecoilValue(userState)
     const [loginResponse, setLoginResponse] = useRecoilState(loginPageResponse)
     const [isSignUp, setIsSignUp] = useRecoilState(LoginForm)
-
-    const [searchParams] = useSearchParams()
-
-    const { confirmEmail } = useAccount()
-
-    useEffect(() => {
-        async function checkToken() {
-            const token = searchParams.get('token')
-            if (token) {
-                confirmEmail(token)
-            }
-        }
-        checkToken()
-    }, [confirmEmail, searchParams])
 
     if (user) {
         return <Navigate to='/' />
