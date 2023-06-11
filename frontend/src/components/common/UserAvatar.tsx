@@ -6,6 +6,7 @@ interface UserAvatarProps {
         firstName: string
         lastName: string
     } | null
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 
 const colors = ['red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
@@ -15,13 +16,18 @@ function getRandomColor(user: { firstName: string; lastName: string }) {
     return colors[hash % colors.length]
 }
 
-function UserAvatar({ user }: UserAvatarProps) {
+function UserAvatar({ user, size }: UserAvatarProps) {
     const navigate = useNavigate()
 
     if (!user) return null
 
     return (
-        <Avatar color={getRandomColor(user)} radius='xl' style={{ cursor: 'pointer' }} onClick={() => navigate('/profile')}>
+        <Avatar
+            size={size || 'md'}
+            color={getRandomColor(user)}
+            radius='xl'
+            style={{ cursor: 'pointer' }}
+            onClick={() => navigate('/profile')}>
             {user.firstName[0].toUpperCase() + user.lastName[0].toUpperCase()}
         </Avatar>
     )

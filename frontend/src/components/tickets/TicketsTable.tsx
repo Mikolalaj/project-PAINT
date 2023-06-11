@@ -28,8 +28,7 @@ import {
 } from '@tabler/icons-react'
 import { useRecoilValue } from 'recoil'
 import { userState } from '../../atoms'
-import { FormValues } from './TicketForm'
-import TicketForm from './TicketForm'
+import TicketForm, { InitialValues } from './TicketForm'
 import UserAvatar from '../common/UserAvatar'
 
 const useStyles = createStyles(theme => ({
@@ -112,26 +111,6 @@ function filterData(data: Ticket[], search: string) {
     )
 }
 
-function sortData(data: Ticket[], payload: { sortBy: keyof Ticket | null; reversed: boolean; search: string }) {
-    const { sortBy } = payload
-
-    if (!sortBy) {
-        return filterData(data, payload.search)
-    }
-
-    return filterData(
-        [...data].sort((a, b) => {
-            const av = b[sortBy].toString()
-            const bv = a[sortBy].toString()
-            if (payload.reversed) {
-                return bv.localeCompare(av)
-            }
-            return av.localeCompare(bv)
-        }),
-        payload.search
-    )
-}
-
 export default function TicketsTable({ tickets }: TableSortProps) {
     const user = useRecoilValue(userState)
     const [selectedRow, setSelectedRow] = useState<Ticket | null>(null)
@@ -139,24 +118,15 @@ export default function TicketsTable({ tickets }: TableSortProps) {
     const [openedEdit, { open: openEdit, close: closeEdit }] = useDisclosure(false)
     const [openedDelete, { open: openDelete, close: closeDelete }] = useDisclosure(false)
     const [search, setSearch] = useState('')
-    const [sortedData, setSortedData] = useState(tickets)
-    const [sortBy, setSortBy] = useState<keyof Ticket | null>(null)
-    const [reverseSortDirection, setReverseSortDirection] = useState(false)
-
-    const setSorting = (field: keyof Ticket) => {
-        const reversed = field === sortBy ? !reverseSortDirection : false
-        setReverseSortDirection(reversed)
-        setSortBy(field)
-        setSortedData(sortData(tickets, { sortBy: field, reversed, search }))
-    }
+    const [fileteredData, setFilteredData] = useState(tickets)
 
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.currentTarget
         setSearch(value)
-        setSortedData(sortData(tickets, { sortBy, reversed: reverseSortDirection, search: value }))
+        setFilteredData(filterData(tickets, value))
     }
 
-    const rows = sortedData.map(row => (
+    const rows = fileteredData.map(row => (
         <tr key={row.name}>
             <td>{row.name}</td>
             <td>
@@ -188,18 +158,19 @@ export default function TicketsTable({ tickets }: TableSortProps) {
         </tr>
     ))
 
-    const addNewProject = (args: FormValues) => {
-        setSortedData(sortData([...tickets, { id: 'newid', ...args }], { sortBy, reversed: reverseSortDirection, search }))
+    const addNewTicket = (args: InitialValues) => {
+        console.log(args)
+        // setFilteredData(filterData([...tickets, { id: 'newid', ...args }], search))
         closeAdd()
     }
 
-    const editProject = (args: FormValues) => {
+    const editTicket = (args: InitialValues) => {
         // Send edit request
         console.log(args)
         closeEditModal()
     }
 
-    const deleteProject = () => {
+    const deleteTicket = () => {
         // Send delete request
         closeDeleteModal()
     }
@@ -216,21 +187,21 @@ export default function TicketsTable({ tickets }: TableSortProps) {
     return (
         <>
             <Modal opened={openedDelete} onClose={closeDeleteModal} centered>
-                Are you sure you want to delete project "{selectedRow?.name}"?
+                Are you sure you want to delete ticket "{selectedRow?.name}"?
                 <Group position='center' mt='lg'>
                     <Button variant='outline' onClick={closeDeleteModal}>
                         No
                     </Button>
-                    <Button color='red' onClick={deleteProject}>
+                    <Button color='red' onClick={deleteTicket}>
                         Yes
                     </Button>
                 </Group>
             </Modal>
-            <Modal opened={openedEdit} onClose={closeEditModal} title='Edit project' centered>
-                <TicketForm type='edit' onSubmit={editProject} data={selectedRow ?? undefined} />
+            <Modal opened={openedEdit} onClose={closeEditModal} title='Edit ticket' centered>
+                <TicketForm type='edit' onSubmit={editTicket} data={selectedRow ?? undefined} />
             </Modal>
-            <Modal opened={openedAdd} onClose={closeAdd} title='Add a new project' centered>
-                <TicketForm type='add' onSubmit={addNewProject} />
+            <Modal opened={openedAdd} onClose={closeAdd} title='Add a new ticket' centered>
+                <TicketForm type='add' onSubmit={addNewTicket} />
             </Modal>
             <Grid grow mb={'md'}>
                 <Grid.Col span={10}>
@@ -243,7 +214,7 @@ export default function TicketsTable({ tickets }: TableSortProps) {
                 </Grid.Col>
                 <Grid.Col span={2}>
                     <Button fullWidth leftIcon={<IconPlus />} onClick={openAdd}>
-                        New project
+                        New ticket
                     </Button>
                 </Grid.Col>
             </Grid>
@@ -251,18 +222,9 @@ export default function TicketsTable({ tickets }: TableSortProps) {
                 <Table horizontalSpacing='md' verticalSpacing='xs' miw={700}>
                     <thead>
                         <tr>
-                            <Th sorted={sortBy === 'name'} reversed={reverseSortDirection} onSort={() => setSorting('name')}>
-                                Name
-                            </Th>
-                            <Th
-                                sorted={sortBy === 'assignedTo'}
-                                reversed={reverseSortDirection}
-                                onSort={() => setSorting('assignedTo')}>
-                                Assigned to
-                            </Th>
-                            <Th sorted={sortBy === 'isDone'} reversed={reverseSortDirection} onSort={() => setSorting('isDone')}>
-                                Status
-                            </Th>
+                            <Th>Name</Th>
+                            <Th>Assigned to</Th>
+                            <Th>Status</Th>
                             <Th>Description</Th>
                             <th />
                         </tr>
