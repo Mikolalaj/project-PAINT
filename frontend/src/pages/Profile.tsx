@@ -157,10 +157,10 @@ export function UserInfoIcons({
             size="xs"
             withCloseButton
           >
-            <Button onClick={() => handleDeleteConfirmation(true)} color="red">
+            <Button onClick={() => handleDeleteConfirmation(true)} color="red" variant="outline">
               Yes
             </Button>
-            <Button onClick={() => handleDeleteConfirmation(false)}> 
+            <Button onClick={() => handleDeleteConfirmation(false)}variant="outline"> 
               No
             </Button>
           </Modal>
