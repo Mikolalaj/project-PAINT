@@ -19,12 +19,10 @@ import java.util.Collection;
 public class User  implements UserDetails
 {
     @Id
-    private String id;
+    private UUID id 
     private String name;
     private String email;
     private UserRole userRole;
-
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
