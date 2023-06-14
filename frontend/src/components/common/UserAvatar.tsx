@@ -6,7 +6,7 @@ interface UserAvatarProps {
         firstName: string
         lastName: string
     } | null
-    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '3xl'
 }
 
 const colors = ['red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
