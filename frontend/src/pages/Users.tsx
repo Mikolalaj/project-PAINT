@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Table, Input } from '@mantine/core';
+import { Table, Input, Button } from '@mantine/core';
 
 const users = [
   {
@@ -30,11 +30,21 @@ const users = [
 
 export default function Users() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [filteredUsers, setFilteredUsers] = useState(users);
 
-  const filteredUsers = users.filter((user) => {
-    const fullName = `${user.name} ${user.surname}`;
-    return fullName.toLowerCase().includes(searchTerm.toLowerCase());
-  });
+  const handleDeleteUser = (number) => {
+    const updatedUsers = filteredUsers.filter((user) => user.number !== number);
+    setFilteredUsers(updatedUsers);
+  };
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+    const filteredUsers = users.filter((user) => {
+      const fullName = `${user.name} ${user.surname}`;
+      return fullName.toLowerCase().includes(event.target.value.toLowerCase());
+    });
+    setFilteredUsers(filteredUsers);
+  };
 
   const ths = (
     <tr>
@@ -42,6 +52,7 @@ export default function Users() {
       <th>Imię</th>
       <th>Nazwisko</th>
       <th>Rola</th>
+      <th>Akcje</th>
     </tr>
   );
 
@@ -51,6 +62,16 @@ export default function Users() {
       <td>{user.name}</td>
       <td>{user.surname}</td>
       <td>{user.role}</td>
+      <td>
+        <Button
+          onClick={() => handleDeleteUser(user.number)}
+          variant="outline"
+          color="red"
+          size="xs"
+        >
+          Usuń
+        </Button>
+      </td>
     </tr>
   ));
 
@@ -59,7 +80,7 @@ export default function Users() {
       <Input
         placeholder="Wyszukaj użytkownika"
         value={searchTerm}
-        onChange={(event) => setSearchTerm(event.target.value)}
+        onChange={handleSearch}
       />
       <Table>
         <thead>{ths}</thead>
