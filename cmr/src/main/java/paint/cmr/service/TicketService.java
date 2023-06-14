@@ -6,6 +6,7 @@ import paint.cmr.model.Ticket;
 import paint.cmr.repository.TicketRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -18,5 +19,5 @@ public class TicketService {
     public Ticket addTicket(@RequestBody Ticket ticket){return ticketRepository.save(ticket);}
     public void deleteTicket(UUID id){ticketRepository.deleteById(id);}
     public List<Ticket> allTickets(){return ticketRepository.findAll();}
-    public Ticket idTicket(UUID id){return ticketRepository.findById(id)}
+    public Optional<Ticket> idTicket(UUID id){return ticketRepository.findById(id);}
 }
