@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.awt.*;
 import java.util.Collection;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -19,7 +20,7 @@ import java.util.Collection;
 public class User  implements UserDetails
 {
     @Id
-    private String id;
+    private UUID id;
     private String name;
     private String email;
     private UserRole userRole;
