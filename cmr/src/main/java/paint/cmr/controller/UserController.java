@@ -9,7 +9,7 @@ import paint.cmr.service.UserService;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping
 public class UserController {
     private final UserService userService;
 
