@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import paint.cmr.model.User;
 import paint.cmr.service.UserService;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -23,7 +25,7 @@ public class UserController {
         return userService.addUser(user);
     }
     @DeleteMapping("/users/{id}")
-    public void delete(@PathVariable String id){
+    public void delete(@PathVariable UUID id){
         userService.delete(id);
     }
 }

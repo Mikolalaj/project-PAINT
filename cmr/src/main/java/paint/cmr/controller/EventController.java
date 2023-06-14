@@ -6,7 +6,9 @@ import paint.cmr.repository.EventRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
+@RestController
 public class EventController {
     private final EventRepository eventRepository;
 
@@ -25,12 +27,12 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Event> getEventById(@PathVariable("id") String id) {
+    public Optional<Event> getEventById(@PathVariable("id") UUID id) {
         return eventRepository.findById(id);
     }
 
     @PutMapping("/{id}")
-    public Optional<Event> updateEvent(@PathVariable("id") String id, @RequestBody Event event) {
+    public Optional<Event> updateEvent(@PathVariable("id") UUID id, @RequestBody Event event) {
         Optional<Event> existingEvent = eventRepository.findById(id);
         if (existingEvent.isPresent()) {
             event.setId(id);
@@ -41,7 +43,7 @@ public class EventController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteEvent(@PathVariable("id") String id) {
+    public void deleteEvent(@PathVariable("id") UUID id) {
         eventRepository.deleteById(id);
     }
 }

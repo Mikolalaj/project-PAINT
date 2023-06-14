@@ -1,13 +1,13 @@
 package paint.cmr.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import paint.cmr.model.User;
 import paint.cmr.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService{
@@ -25,8 +25,8 @@ public class UserService{
         return userRepository.save(user);
     }
 
-    public void delete(String id) {
-        userRepository.deleteById(id);
+    public void delete(UUID id) {userRepository.deleteById(id);
     }
+    public Optional<User> idUser(UUID id){return userRepository.findById(id);}
 
 }
