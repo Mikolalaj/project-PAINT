@@ -16,22 +16,22 @@ public class EventController {
         this.eventRepository = eventRepository;
     }
 
-    @PostMapping("/event")
+    @PostMapping("/dashboard")
     public Event createEvent(@RequestBody Event event) {
         return eventRepository.save(event);
     }
 
-    @GetMapping("/event")
+    @GetMapping("/dashboard")
     public List<Event> getAllEvents() {
         return eventRepository.findAll();
     }
 
-    @GetMapping("/event/{id}")
+    @GetMapping("/dashboard/{id}")
     public Optional<Event> getEventById(@PathVariable("id") UUID id) {
         return eventRepository.findById(id);
     }
 
-    @PutMapping("/event/{id}")
+    @PutMapping("/dashboard/{id}")
     public Optional<Event> updateEvent(@PathVariable("id") UUID id, @RequestBody Event event) {
         Optional<Event> existingEvent = eventRepository.findById(id);
         if (existingEvent.isPresent()) {
@@ -42,7 +42,7 @@ public class EventController {
         }
     }
 
-    @DeleteMapping("/event/{id}")
+    @DeleteMapping("/dashboard/{id}")
     public void deleteEvent(@PathVariable("id") UUID id) {
         eventRepository.deleteById(id);
     }

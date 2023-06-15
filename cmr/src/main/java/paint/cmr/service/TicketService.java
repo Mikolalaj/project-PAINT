@@ -16,8 +16,16 @@ public class TicketService {
     public TicketService(TicketRepository ticketRepository) {
         this.ticketRepository = ticketRepository;
     }
-    public Ticket addTicket(@RequestBody Ticket ticket){return ticketRepository.save(ticket);}
-    public void deleteTicket(UUID id){ticketRepository.deleteById(id);}
-    public List<Ticket> allTickets(){return ticketRepository.findAll();}
-    public Optional<Ticket> idTicket(UUID id){return ticketRepository.findById(id);}
+    public Ticket addTicket(@RequestBody Ticket ticket) {
+        return ticketRepository.save(ticket);
+    }
+    public void deleteTicket(UUID id){
+        ticketRepository.deleteById(id);
+    }
+    public List<Ticket> allTickets(){
+        return ticketRepository.findAll();
+    }
+    public Optional<Ticket> idTicket(UUID id){
+        return ticketRepository.findById(id);
+    }
 }
