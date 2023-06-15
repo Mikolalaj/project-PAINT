@@ -8,7 +8,7 @@ npm install
 npm run dev
 ```
 ```bash
-cd cmr
+cd backend
 docker compose -d
 ```
 
