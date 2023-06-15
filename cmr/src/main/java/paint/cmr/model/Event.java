@@ -13,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-@Document(collation = "events")
+@Document(collection = "events")
 public class Event {
     @Id
     private UUID id;

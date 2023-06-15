@@ -17,7 +17,7 @@ import java.util.UUID;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Data
-@Document(collation = "users")
+@Document(collection = "users")
 public class User  implements UserDetails
 {
     @Id
