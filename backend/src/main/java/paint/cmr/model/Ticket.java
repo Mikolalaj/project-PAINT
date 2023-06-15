@@ -17,9 +17,25 @@ import java.util.UUID;
 public class Ticket {
     @Id
     private UUID id;
+
+    /**
+     * The name of the ticket.
+     */
     private String name;
+
+    /**
+     * The description of the ticket.
+     */
     private String description;
+
+    /**
+     * The list of users assigned to the ticket.
+     */
     @DocumentReference
     private List<User> assignedTo;
+
+    /**
+     * Indicates whether the ticket is marked as done or not.
+     */
     private boolean isDone;
 }
